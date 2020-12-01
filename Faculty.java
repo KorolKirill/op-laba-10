@@ -1,19 +1,34 @@
 import java.util.ArrayList;
 
-public class Faculty {
+public class Faculty implements Information {
     private final String name;
+    private final Institute institute;
     private ArrayList<Student> students = new ArrayList<>();
 
-    public Faculty(String name) {
+    public Faculty(String name, Institute institute, ArrayList<Student> students) {
         this.name = name;
+        this.institute = institute;
+        this.students = students;
+        institute.add(this);
     }
 
-    public Faculty(String name, ArrayList<Student> students) {
-        this.name = name;
-        this.students = students;
+    public Institute getInstitute() {
+        return institute;
     }
+
+    public Faculty(String name, Institute institute) {
+        this.name = name;
+        this.institute = institute;
+        institute.add(this);
+    }
+
     public void add(Student student) {
-        students.add(student);
+        if (students.contains(student)) {
+            System.out.println("Ошибка этот студент уже учится на этом факультете");
+        }
+        else {
+            students.add(student);
+        }
     }
 
     public String getName() {
@@ -31,5 +46,13 @@ public class Faculty {
         return quantity;
     }
 
+    @Override
+    public void getInformation() {
+        System.out.println(
+                "Вся информация о факультете:" +
+                "\nНазвание: " + name +
+                        "\nКоличество учеников: " +countStudents()
+        );
 
+    }
 }

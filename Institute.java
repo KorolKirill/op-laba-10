@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Institute {
+public class Institute implements Information{
     private ArrayList<Faculty> faculties = new ArrayList<>();
     private final String name;
 
@@ -13,8 +13,18 @@ public class Institute {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+    //Этот метод проверяет факультеты на ссылки в памяти, а тут бы лучше сделать что бы проверяло по названию
+    // Сделал для того что бы нельзя было добавить два одинкаковых факультета
     public void add(Faculty faculty) {
-        faculties.add(faculty);
+        if (faculties.contains(faculty)) {
+            System.out.println("Ошибка это факультет уже принадлежит институту");
+        }
+        else {
+            faculties.add(faculty);
+        }
     }
     // Функция которая считает сколько всего учиться студентов Задание 3)
     public int countStudents() {
@@ -59,5 +69,29 @@ public class Institute {
         }
         return bestStudents.toString();
     }
+    //Метод ищет студента по номеру заликовки
+    // Тут бы добавить еще проверку на правильность введения номер зачетки
+    public void findStudent(String markBookIndex) {
 
+        for (Faculty faculty: faculties) {
+            for (Student student: faculty.getStudents()){
+                if (student.getMarkBookIndex().equals(markBookIndex)) {
+                    System.out.println("Студент по запросу: "+markBookIndex+" найден. Вот информация:");
+                    student.getInformation();
+                    return;
+                }
+            }
+        }
+        System.out.println("Студент по запросу:" +markBookIndex+ " не найден.");
+    }
+
+    @Override
+    public void getInformation() {
+        System.out.println(
+                "Вся информация о Институте:" +
+                        "\nНазвание: " + name +
+                        "\nФакультеты: " +faculties.toString() + //Здесь надо сделать нормальное отображение факультетов.
+                        "\nКоличество учеников: " +countStudents()
+        );
+    }
 }
