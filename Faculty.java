@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Faculty implements Information {
     private final String name;
@@ -10,10 +11,6 @@ public class Faculty implements Information {
         this.institute = institute;
         this.students = students;
         institute.add(this);
-    }
-
-    public Institute getInstitute() {
-        return institute;
     }
 
     public Faculty(String name, Institute institute) {
@@ -30,6 +27,9 @@ public class Faculty implements Information {
             students.add(student);
         }
     }
+    public Institute getInstitute() {
+        return institute;
+    }
 
     public String getName() {
         return name;
@@ -40,7 +40,7 @@ public class Faculty implements Information {
     }
     public int countStudents() {
         int quantity = 0;
-        for (Student student: students) {
+        for (Student student : students) {
             quantity++;
         }
         return quantity;

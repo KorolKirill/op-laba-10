@@ -12,6 +12,7 @@ public class Student implements Information {
         faculty.add(this);
     }
 
+
     public String getName() {
         return name;
     }

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Institute implements Information{
     private ArrayList<Faculty> faculties = new ArrayList<>();
@@ -26,11 +27,12 @@ public class Institute implements Information{
             faculties.add(faculty);
         }
     }
-    // Функция которая считает сколько всего учиться студентов Задание 3)
+    // Функция которая считает сколько всего учиться студентов Задание 1)
     public int countStudents() {
         int quantity = 0;
-        for (Faculty faculty:faculties) {
-            quantity += faculty.countStudents();
+        Iterator iterator = faculties.iterator();
+        while (iterator.hasNext()) {
+            quantity += ((Faculty) iterator.next()).countStudents() ;
         }
         return quantity;
     }
@@ -38,15 +40,17 @@ public class Institute implements Information{
     // Функция которая смотрит где больше всего студентов Задание 2)
     public String mostStudents() {
         Faculty answer = null;
-        String nullAnwer = "В инстритуте нету факультетов или количество студентов в факультетах равно 0";
+        Iterator<Faculty> iterator = faculties.iterator();
+        String nullAnswer = "В инстритуте нету факультетов или количество студентов в факультетах равно 0";
         int tempStudents = 0;
-        for (Faculty faculty : faculties) {
-            if (faculty.countStudents()>tempStudents) {
-                tempStudents = faculty.countStudents();
-                answer = faculty;
+        while (iterator.hasNext()){
+            Faculty tempFaculty = iterator.next();
+            if (tempFaculty.countStudents()>tempStudents) {
+                tempStudents = tempFaculty.countStudents();
+                answer = tempFaculty;
             }
         }
-        return answer == null? nullAnwer : "Это факультет: " + answer.getName();
+        return answer == null? nullAnswer : "Это факультет: " + answer.getName();
     }
 
     // Фукнция которая ищет лучших студентов Задание 3)
@@ -90,8 +94,15 @@ public class Institute implements Information{
         System.out.println(
                 "Вся информация о Институте:" +
                         "\nНазвание: " + name +
-                        "\nФакультеты: " +faculties.toString() + //Здесь надо сделать нормальное отображение факультетов.
+                        "\nФакультеты: " +getStringOfFaculties() +
                         "\nКоличество учеников: " +countStudents()
         );
+    }
+    private String getStringOfFaculties() {
+        StringBuilder allFaculties = new StringBuilder();
+        for (Faculty faculty: faculties) {
+            allFaculties.append(faculty.getName()).append(" ");
+        }
+        return allFaculties.toString();
     }
 }
